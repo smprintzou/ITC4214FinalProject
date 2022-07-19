@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+{% load static %}
+
+      {% block content %}
+
+      <div class="container">
+
+        <!-- FAVORITE CATEGORIES SECTION-->
+
+        <section class="pt-5">
+          <header class="text-center">
+            <h2 class="h5 text-uppercase mb-4">Favorite Cities</h2>
+          </header>
+          <div class="row">
+          {% if categories %}
+            {% for category in categories %}
+
+              <div class="col-md-4 mb-4 mb-md-0">
+                <a class="category-item" href="{% url 'store:category-products' category.slug %}">
+                  {% if category.category_image %}
+                    <img class="img-fluid" src="{{ category.category_image.url }}" alt="{{ category.title }}">
+                    {% else %}
+                    <img class="img-fluid" src="{% static 'img/cat-img-1.jpg' %}" alt="{{ category.title }}">
+                  {% endif %}
+                  <strong class="category-item-title">{{ category.title }}</strong>
+                </a>
+              </div>
+            
+            {% endfor %}
+          {% endif %}
+          </div>
+        </section>
+
+
+        <!-- FAVORITE EVENTS -->
+
+        <section class="py-5">
+          <header>
+            <h2 class="h5 text-uppercase mb-4">Favorite Events</h2>
+          </header>
+
+          <div class="row">
+
+            {% if products %}
+              {% for product in products %}
+              
+                <!-- EVENTS -->
+
+                <div class="col-xl-3 col-lg-4 col-sm-6">
+                  <div class="product text-center">
+                    <div class="position-relative mb-3">
+
+                      <div class="badge text-white badge-"></div>
+                      
+                      <a class="d-block" href="{% url 'store:product-detail' product.slug %}">
+                        {% if product.product_image %}
+                          <img class="img-fluid w-100" src="{{ product.product_image.url }}" alt="{{product.title}}">
+                        {% else %}
+                          <img class="img-fluid w-100" src="{% static 'img/product-1.jpg' %}" alt="{{product.title}}">
+                        {% endif %}
+                      </a>
+
+                      <div class="product-overlay">
+                        <ul class="mb-0 list-inline">
+                          <li class="list-inline-item m-0 p-0">
+                            <form action="{% url 'store:add-to-cart' %}">
+                              <input type="hidden" name="prod_id" value="{{product.id}}" id="product_id">
+                              <button type="submit" class="btn btn-sm btn-dark">Book</button>
+                            </form>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                    <h6> <a class="reset-anchor" href="detail.html">{{ product.title }}</a></h6>
+                    <p class="small text-muted">{{product.sku}}</p>
+                  </div>
+                </div>
+
+              {% endfor %}
+            {% endif %}
+
+          </div>
+
+        </section>
+
+      </div>
+
+      {% endblock content %}
